@@ -1,146 +1,93 @@
 body {
-    font-family: 'Aptos', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 110vh;
-    overflow: auto;
-  }
-  
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-   background-color: #0056b3;
-   color: white;
-   padding: 10px;
-   position: fixed;
-   top: 0%;
-   width: 100%;
-   z-index: 1000;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .logo {
-    height: 50px;
-    margin: 0 auto;
-  }
-  
-  .image-container {
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  button[mat-icon-button] {
-    color: #ffffff;
-  }
-  
-  .mat-icon {
-    font-size: 24px;
-  }
-  
-  .mat-icon.more-options {
-    font-size: 48px;
-  }
-  
-  .main-content {
-    display: flex;
-    flex-grow: 1;
-    margin-top: 60px;
-    overflow:hidden;
-    height: calc(100vh - 60px);
-    margin-bottom: 60px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-    min-width: 100px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-    top: 100%;
-    right: 0;
-  }
-  
-  .image-container:hover .dropdown-content {
-    display: block;
-  }
-  
-  .header {
-    text-align: center;
-    background-image: url('https://png.pngtree.com/background/20230527/original/pngtree-black-living-room-with-modern-library-and-bookshelf-space-picture-image_2755507.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .header h1 {
-    margin: 0;
-  }
-  
-  .content-section .header .overlay {
-    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.95));
-    padding: 40px;
-    border-radius: 20px;
-    color: #363535;
-    box-shadow: 0 4 20px rgb(0, 0, 0.1);
-    max-width: 900px;
-    margin: 20px center;
-    text-align: center;
-    height: auto;
-    font-family: 'Aptos', sans-serif;
-  }
+  font-family: 'Aptos', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Aseguramos que el contenido se ajuste a la altura de la pantalla */
+  overflow-x: hidden; /* Evitamos scroll horizontal */
+}
 
-  .content-section .header h2{
-    font-family: 'Aptos', sans-serif;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-    color: #0056b3;
-  }
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0056b3;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-  .content-section .header p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-  
-  .main-content {
-    display: flex;
-    flex-grow: 1;
-    padding-top: 80px;
-    height: 100vh;
-    overflow:auto;
-  }
-  
-  .fancy-paragraph {
-    color: green;
-    font-family: 'Aptos', sans-serif;
-    font-size: 1.5em;
-    background-color: rgba(240, 240, 240, 0.9);
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 80%;
-    margin: 20px auto;
-    border-radius: 10px;
-  }
+.logo {
+  height: 50px;
+}
 
-  .footer {
-    background-color: #ffffff; /* Color de fondo del footer */
-    padding: 20px 0;
-    text-align: center;
-    color: #2B6ADF; /* Color del texto */
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+.content-section {
+  margin-top: 70px; /* Ajustamos el margen superior para evitar que el contenido quede debajo del navbar */
+}
 
- 
-  
+.header {
+  text-align: center;
+  background-image: url('https://png.pngtree.com/background/20230527/original/pngtree-black-living-room-with-modern-library-and-bookshelf-space-picture-image_2755507.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh; /* Ajustamos la altura de la cabecera */
+}
+
+.overlay {
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.95));
+  padding: 20px;
+  border-radius: 20px;
+  color: #363535;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  text-align: center;
+}
+
+.fancy-paragraph {
+  color: green;
+  font-size: 1.2em;
+  background-color: rgba(240, 240, 240, 0.9);
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#map {
+  width: 300px;
+  height: 100%; /* Altura del mapa */
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.ip-info-box {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  text-align: center;
+}
+
+.footer {
+  background-color: #ffffff;
+  padding: 10px 0;
+  text-align: center;
+  color: #2B6ADF;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

@@ -230,6 +230,8 @@ app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
     res.status(200).json({ message: 'Libro actualizado exitosamente' });
   });
 });
+
+
 // Eliminar un libro
 app.delete('/deleteBook/:isbn', (req, res) => {
   const { isbn } = req.params;
@@ -416,6 +418,8 @@ app.get('/confirm/:token', (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).send({ message: 'Lector no encontrado o el token es inválido' });
     }
+
+
 // Mostrar mensaje de confirmación
      res.send(`
       <!DOCTYPE html>
@@ -988,3 +992,18 @@ app.get('/lector/:numeroControl', (req, res) => {
       res.status(200).send(results[0]);
   });
 });
+
+//IpAPi
+const {getIpInfo}=require('./ipService');
+
+app.get('/api/ipInfo', async(req,res)=>{
+  const ip = req.query.ip || req.ip;
+  try{
+    const data = await getIpInfo(ip);
+    res.json(data);
+  }catch(error){
+    res.status(500).json({error:'Fallo al obtener la IP info'});
+  }
+});
+
+

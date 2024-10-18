@@ -28,8 +28,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { FormsModule } from '@angular/forms';
 import { ErrorComponent } from './components/home/error/error.component';
 import { DevolucionDeLibrosComponent } from './components/menu/Options/devolucion-de-libros/devolucion-de-libros.component';
-
-
+import { ipComponent } from './components/menu/Options/ip/ip.component';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import {MapComponent} from './map/map.component';
+import { PagarMultasComponent } from './usuario/pagar-multas/pagar-multas.component';
+import { ComprarLibrosComponent } from './components/menu/options/comprar-libros/comprar-libros.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +48,10 @@ import { DevolucionDeLibrosComponent } from './components/menu/Options/devolucio
     PersonalisadoComponent,
     ErrorComponent,
     DevolucionDeLibrosComponent,
+    ipComponent,
+    MapComponent,
+    PagarMultasComponent,
+    ComprarLibrosComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,7 +20,8 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "types": ["google.maps"]  // <-- Asegura que los tipos de Google Maps estén incluidos
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
