@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IpService } from './../../../Services/ip.service';
+import { IpService } from './../../../../Services/ip.service';
 
 @Component({
   selector: 'app-ip',

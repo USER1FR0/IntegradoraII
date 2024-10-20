@@ -59,6 +59,9 @@
         <li><a (click)="showPersonalisado()">Generar reporte</a></li>
         <li><a (click)="showRegistroBlibliotecarios()">Nuevos Bibliotecarios</a></li>
         <li><a (click)="mostrarDevolucionDeLibros()">Devolver Libros</a></li>
+        <!--Meter validacion de permisos aqui-->       
+        <li><a (click)="comprarLibro()">Ir a la tienda</a></li>
+        <li><a (click)="pagarMulta()">Pagar multa</a></li>
       </ul>
     </div>
 
@@ -94,6 +97,13 @@
       </div>
       <div *ngIf="showDevolucionDeLibros">
         <app-devolucion-de-libros></app-devolucion-de-libros>
+      </div>
+      <!--Aparecera si eres usuario normal-->
+      <div *ngIf="comprarLibros">
+        <app-comprar-libros></app-comprar-libros>
+      </div>
+      <div *ngIf="pagarMultas">
+        <app-pagar-multas></app-pagar-multas>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { SidebarService } from '../menu/Options/Services/sidebar.services';
+import { SidebarService } from './Options/Services/sidebar.services';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 
@@ -18,6 +18,8 @@ export class MenuComponent {
   showLectores = false;
   showReporte = false;
   isFooterVisible = false;
+  comprarLibros = false;
+  pagarMultas = false;
   showNoticias = true; // Inicialmente mostramos las noticias
   showDevolucionDeLibros = false; // Asegúrate de que esta propiedad esté definida
   noticiasItems: any[] = [];
@@ -61,6 +63,16 @@ export class MenuComponent {
     this.showReporte = true;
   }
 
+  comprarLibro() {
+    this.resetViews();
+    this.comprarLibros = true;
+  }
+
+  pagarMulta() {
+    this.resetViews();
+    this.pagarMultas = true;
+  }
+
   showNoticiasSection() {
     this.resetViews();
     this.showNoticias = true;
@@ -92,6 +104,8 @@ export class MenuComponent {
     this.showLectores = false;
     this.showReporte = false;
     this.showNoticias = false;
+    this.comprarLibros=false;
+    this.pagarMultas = false;
     this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
   }
 

@@ -15,24 +15,24 @@ import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './components/home/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { SearchBooksComponent } from './components/menu/Options/search-books/SearchBooks.component';
-import { NewBooksComponent } from './components/menu/Options/NewBooks/NewBooks.component';
-import { EditBooksComponent } from './components/menu/Options/EditBooks/EditBooks.component';
-import { ConfirmacionDeEmailComponent } from './components/menu/Options/confirmacion-de-email/confirmacion-de-email.component';
-import { MultasComponent } from './components/menu/Options/multas/multas.component';
-import { RegistroBibiotecariosModule } from './components/menu/Options/RegistroBibliotecarios/bibliotecarios.component';
-import { RegistroLectorComponent } from './components/menu/Options/Lectores/lectores.component';
+import { SearchBooksComponent } from './components/menu/Options/Administrador/search-books/SearchBooks.component';
+import { NewBooksComponent } from './components/menu/Options/Administrador/NewBooks/NewBooks.component';
+import { EditBooksComponent } from './components/menu/Options/Administrador/EditBooks/EditBooks.component';
+import { ConfirmacionDeEmailComponent } from './components/menu/Options/Administrador/confirmacion-de-email/confirmacion-de-email.component';
+import { MultasComponent } from './components/menu/Options/Administrador/multas/multas.component';
+import { RegistroBibiotecariosModule } from './components/menu/Options/Administrador/RegistroBibliotecarios/bibliotecarios.component';
+import { RegistroLectorComponent } from './components/menu/Options/Administrador/Lectores/lectores.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { PersonalisadoComponent } from './components/menu/Options/ReportePersonalisado/personalisados.component';
+import { PersonalisadoComponent } from './components/menu/Options/Administrador/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
 import { ErrorComponent } from './components/home/error/error.component';
-import { DevolucionDeLibrosComponent } from './components/menu/Options/devolucion-de-libros/devolucion-de-libros.component';
-import { ipComponent } from './components/menu/Options/ip/ip.component';
+import { DevolucionDeLibrosComponent } from './components/menu/Options/Administrador/devolucion-de-libros/devolucion-de-libros.component';
+import { ipComponent } from './components/menu/Options/Administrador/ip/ip.component';
 import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {MapComponent} from './map/map.component';
-import { PagarMultasComponent } from './usuario/pagar-multas/pagar-multas.component';
-import { ComprarLibrosComponent } from './components/menu/options/comprar-libros/comprar-libros.component'
+import { PagarMultasComponent } from './components/menu/Options/Usuario/pagar-multas/pagar-multas.component';
+import { ComprarLibrosComponent } from './components/menu/Options/Usuario/comprar-libros/comprar-libros.component'
 @NgModule({
   declarations: [
     AppComponent,

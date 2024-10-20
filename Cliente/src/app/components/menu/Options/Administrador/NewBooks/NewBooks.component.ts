@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { BookService } from '../Services/BookService';
+import { BookService } from '../../Services/BookService';
 
 @Component({
   selector: 'app-newbooks',

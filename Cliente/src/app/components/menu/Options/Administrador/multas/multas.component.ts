@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MultasService } from '../Services/multa.service';
+import { MultasService } from '../../Services/multa.service';
 import { error } from 'jquery';
 
 @Component({

@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditBooksComponent } from '../EditBooks/EditBooks.component';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BookService } from '../Services/BookService';
+import { BookService } from '../../Services/BookService';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
