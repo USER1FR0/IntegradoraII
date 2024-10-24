@@ -33,6 +33,9 @@ import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import {MapComponent} from './map/map.component';
 import { PagarMultasComponent } from './components/menu/Options/Usuario/pagar-multas/pagar-multas.component';
 import { ComprarLibrosComponent } from './components/menu/Options/Usuario/comprar-libros/comprar-libros.component'
+import { MatDialogModule } from '@angular/material/dialog';
+import { EventosComponent } from './components/menu/options/Administrador/eventos/eventos.component';
+import { PaypalComponent } from './components/menu/options/usuario/paypal/paypal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +55,8 @@ import { ComprarLibrosComponent } from './components/menu/Options/Usuario/compra
     MapComponent,
     PagarMultasComponent,
     ComprarLibrosComponent,
+    EventosComponent,
+    PaypalComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +75,7 @@ import { ComprarLibrosComponent } from './components/menu/Options/Usuario/compra
     MatSnackBarModule,
     HttpClientModule,
     BrowserAnimationsModule, 
+    MatDialogModule
   ],
   providers: [
     provideAnimationsAsync()

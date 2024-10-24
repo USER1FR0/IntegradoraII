@@ -8,7 +8,8 @@ import { MultasService } from '../../Services/multa.service';
 })
 export class PagarMultasComponent implements OnInit {
   multasPendientes: any[] = [];
-  numeroControlInput: string | null = null;  // Variable para almacenar el número de control ingresado por el lector
+  numeroControlInput: string | null = null;
+  multaSeleccionada: any | null = null;  // Nueva variable para almacenar la multa seleccionada
   alertMessage: string | null = null;
   alertType: 'success' | 'error' = 'success';
 
@@ -21,7 +22,6 @@ export class PagarMultasComponent implements OnInit {
 
     this.multasService.getMultas().subscribe({
       next: (data) => {
-        // Filtrar multas pendientes del lector según el número de control ingresado
         this.multasPendientes = data.filter((multa: any) =>
           multa.NumeroControl === this.numeroControlInput && multa.Estatus === 'Activa'
         );
@@ -33,18 +33,7 @@ export class PagarMultasComponent implements OnInit {
   }
 
   pagarMulta(multa: any): void {
-    multa.Estatus = 'Pagada';  // Cambiar estatus a 'Pagada'
-
-    this.multasService.updateMulta(multa.IdMulta, multa).subscribe({
-      next: () => {
-        this.showAlert('Multa pagada exitosamente', 'success');
-        this.loadMultasPendientes();  // Recargar la lista de multas pendientes
-      },
-      error: error => {
-        console.error('Error al pagar la multa:', error);
-        this.showAlert('Error al pagar la multa', 'error');
-      }
-    });
+    this.multaSeleccionada = multa;  // Guardar la multa seleccionada
   }
 
   showAlert(message: string, type: 'success' | 'error'): void {

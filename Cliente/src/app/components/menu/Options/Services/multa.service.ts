@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class MultasService {
   private apiUrl = 'http://localhost:3000/multas';  // Cambia esto a la URL de tu API
+  private apiUrl2 = 'http://localhost:3000/multaPago'; 
 
   constructor(private http: HttpClient) { }
 
@@ -48,6 +49,12 @@ export class MultasService {
       catchError(this.handleError)
     );
   }
+  updateMultaPago(id: number, multa: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl2}/${id}`, multa).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 
   deleteMulta(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`).pipe(
