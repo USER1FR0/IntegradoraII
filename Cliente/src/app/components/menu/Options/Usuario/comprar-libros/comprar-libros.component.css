@@ -1,3 +1,4 @@
+/* Estilos generales para el contenedor de búsqueda */
 .search-books {
     position: relative;
     padding: 20px;
@@ -8,6 +9,7 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Encabezado de la búsqueda */
 .search-header {
     text-align: center;
     margin-bottom: 20px;
@@ -21,6 +23,7 @@
     letter-spacing: 1px;
 }
 
+/* Campo de entrada de búsqueda */
 .search-header input {
     width: 100%;
     padding: 10px;
@@ -31,6 +34,7 @@
     margin-bottom: 10px;
 }
 
+/* Botón de búsqueda */
 .search-button {
     background-color: #4A90E2;
     color: white;
@@ -47,10 +51,54 @@
     transform: scale(1.05);
 }
 
+/* Nuevo contenedor de fondo blanco para los resultados */
+.results-wrapper {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Contenedor de resultados */
 .results-container {
     margin-top: 20px;
 }
 
+/* Estilos para cada resultado en la búsqueda general */
+.results h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.result {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.result h3 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.result h3 a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.result h3 a:hover {
+    text-decoration: underline;
+}
+
+.result p {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Estilos específicos para la búsqueda de libros */
 .results {
     display: flex;
     flex-wrap: wrap;
@@ -75,6 +123,7 @@
     margin-bottom: 10px;
 }
 
+/* Adaptaciones para pantallas pequeñas */
 @media screen and (max-width: 768px) {
     .book {
         width: calc(50% - 40px);

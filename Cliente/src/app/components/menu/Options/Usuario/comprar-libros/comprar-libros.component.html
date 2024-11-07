@@ -24,15 +24,16 @@
 
 <!-- Barra de búsqueda personalizada -->
 <div class="search-custom">
-  <h2 class="title">Buscar en la Web</h2>
+  <h2 class="title">Páginas para comprar libros</h2>
   <input 
       type="text" 
-      placeholder="Buscar en la web..." 
+      placeholder="Buscar libros en la web..." 
       [(ngModel)]="searchTermCustom">
   <button class="search-button" (click)="searchCustom()">Buscar</button>
 
-  <div *ngIf="customSearchResults.length > 0" class="results-container">
-      <h2>Resultados de la búsqueda en la web</h2>
+  <!-- Contenedor con fondo blanco para los resultados personalizados -->
+  <div *ngIf="customSearchResults.length > 0" class="results-wrapper">
+      <h2>Resultados de los libros</h2>
       <div class="results">
           <div *ngFor="let result of customSearchResults" class="result">
               <h3><a [href]="result.link" target="_blank">{{ result.title }}</a></h3>
