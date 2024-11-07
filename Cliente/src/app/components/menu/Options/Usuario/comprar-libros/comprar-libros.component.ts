@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BooksService } from '../../../../Services/books.services';
+import { SearchService } from '../../../../Services/search.service';
 declare var bootstrap: any;
 
 @Component({
@@ -9,14 +10,19 @@ declare var bootstrap: any;
 })
 export class ComprarLibrosComponent implements OnInit {
   books: any[] = [];
+  customSearchResults: any[] = [];
   searchTerm: string = '';
-  selectedBook: any = null;  // Para almacenar el libro seleccionado
+  searchTermCustom: string = '';
+  selectedBook: any = null; // Para almacenar el libro seleccionado
 
-  constructor(private booksService: BooksService) { }
+  constructor(
+    private booksService: BooksService,
+    private searchService: SearchService
+  ) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
-  // Método para buscar libros
+  // Método para buscar libros en la API de Google Books
   searchBooks(): void {
     if (this.searchTerm) {
       this.booksService.getBooks(this.searchTerm).subscribe(
@@ -25,6 +31,20 @@ export class ComprarLibrosComponent implements OnInit {
         },
         (error) => {
           console.error('Error al obtener los libros:', error);
+        }
+      );
+    }
+  }
+
+  // Método para buscar en Google Custom Search API
+  searchCustom(): void {
+    if (this.searchTermCustom) {
+      this.searchService.search(this.searchTermCustom).subscribe(
+        (data) => {
+          this.customSearchResults = data.items || [];
+        },
+        (error) => {
+          console.error('Error en la búsqueda personalizada:', error);
         }
       );
     }
