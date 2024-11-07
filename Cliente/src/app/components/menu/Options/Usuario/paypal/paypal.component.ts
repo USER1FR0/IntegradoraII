@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-paypal',
@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PaypalComponent implements OnInit {
   @Input() multa: any;
+  @Output() pagoCompletado = new EventEmitter<any>(); // Emite evento de pago completado
 
   ngOnInit(): void {
     this.renderPayPalButton();
@@ -28,7 +29,10 @@ export class PaypalComponent implements OnInit {
         // Capturar el pago después de la aprobación
         return actions.order.capture().then((details: any) => {
           console.log('Pago completado:', details);
-          // Aquí puedes actualizar el estado de la multa a "Pagada"
+          this.pagoCompletado.emit({
+            multa: this.multa,
+            detallesPago: details
+          }); // Emitir el evento al componente padre
         });
       },
       onError: (err: any) => {

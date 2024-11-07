@@ -20,6 +20,8 @@ export class MenuComponent {
   isFooterVisible = false;
   comprarLibros = false;
   pagarMultas = false;
+  eventos = false;
+  llamada = false;
   showNoticias = true; // Inicialmente mostramos las noticias
   showDevolucionDeLibros = false; // Asegúrate de que esta propiedad esté definida
   noticiasItems: any[] = [];
@@ -36,6 +38,11 @@ export class MenuComponent {
   showSearchBooks() {
     this.resetViews();
     this.showSearch = true;
+  }
+
+  showLlamada(){
+    this.resetViews();
+    this.llamada = true;
   }
 
   showNewBook() {
@@ -73,6 +80,10 @@ export class MenuComponent {
     this.pagarMultas = true;
   }
 
+  showEventos(){
+    this.resetViews();
+    this.eventos = true;
+  }
   showNoticiasSection() {
     this.resetViews();
     this.showNoticias = true;
@@ -106,7 +117,10 @@ export class MenuComponent {
     this.showNoticias = false;
     this.comprarLibros=false;
     this.pagarMultas = false;
+    this.eventos = false;
     this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
+    this.llamada=false;
+    this.llamada=false;
   }
 
   @HostListener('window:scroll', [])

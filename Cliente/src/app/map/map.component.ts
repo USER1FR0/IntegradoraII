@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-declare var H: any; // Declaración para evitar errores con H
+import { EventosService } from './../components/Services/eventos.service';
+
+declare var H: any;
 
 @Component({
   selector: 'app-map',
@@ -7,113 +9,122 @@ declare var H: any; // Declaración para evitar errores con H
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  private map: any;
+  private platform: any;
+  private userPosition: any; // Variable para almacenar la ubicación del usuario
+  private currentBubble: any; // Variable para almacenar el cuadro de información actual
 
-  private destination = { lat: 21.161237760957135, lng: -100.92707705343682 }; // Ubicación fija de destino
+  constructor(private eventosService: EventosService) {}
 
   ngOnInit(): void {
-    this.initMap(); // Llama a la función que inicializa el mapa
+    this.initMap();
   }
 
   initMap(): void {
-    const platform = new H.service.Platform({
+    this.platform = new H.service.Platform({
       apikey: "EA1yweP2Qasi_jTOqeiKhRoBDqnu_Oh_QKiG91e2d38"
     });
+    const defaultLayers = this.platform.createDefaultLayers();
 
-    const defaultLayers = platform.createDefaultLayers();
-
-    const map = new H.Map(
+    this.map = new H.Map(
       document.getElementById('mapContainer'),
       defaultLayers.vector.normal.map,
       {
         zoom: 12,
-        center: this.destination // Centra el mapa en la ubicación de destino
       }
     );
 
-    const mapEvents = new H.mapevents.MapEvents(map);
-    const behavior = new H.mapevents.Behavior(mapEvents);
-    const ui = H.ui.UI.createDefault(map, defaultLayers, "es-ES");
+    const mapEvents = new H.mapevents.MapEvents(this.map);
+    new H.mapevents.Behavior(mapEvents);
+    H.ui.UI.createDefault(this.map, defaultLayers, "es-ES");
 
-    this.getBrowserPosition(map); // Obtiene la posición actual del navegador
-    this.addDestinationMarker(map); // Agrega el marcador de la ubicación fija
-    this.calculateRoute(platform, map); // Calcula la ruta desde la ubicación actual hacia la ubicación fija
+    this.getBrowserPosition(); // Obtener la ubicación del usuario
+    this.loadEventos(); // Cargar los eventos y agregarlos al mapa
   }
 
-  getBrowserPosition(map: any): void {
+  // Obtener la posición del usuario y centrar el mapa en ella
+  getBrowserPosition(): void {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const browserPosition = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        // Cambiar el marcador del usuario a color rojo
-        const userMarker = new H.map.Marker(browserPosition, {
-          icon: new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/e/e4/Red_dot.svg', { size: { w: 32, h: 32 } }) // Marcador rojo
-        });
-        map.addObject(userMarker);
-        map.setCenter(browserPosition); // Centra el mapa en la ubicación del usuario
-      }, () => {
-        alert("No pudimos obtener su ubicación.");
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.userPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          console.log("Ubicación del usuario:", this.userPosition);
+
+          // Centrar el mapa en la posición del usuario sin agregar marcador
+          this.map.setCenter(this.userPosition);
+        },
+        () => {
+          alert("No pudimos obtener su ubicación.");
+        }
+      );
     } else {
       alert("Geolocation no es soportada por este navegador.");
     }
   }
 
-  addDestinationMarker(map: any): void {
-    // Cambiar el marcador de destino a color azul
-    const destinationMarker = new H.map.Marker(this.destination, {
-      icon: new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_dot.svg', { size: { w: 32, h: 32 } }) // Marcador azul
+  // Cargar los eventos activos desde el servicio y agregar "cuadros de texto" como marcadores
+  loadEventos(): void {
+    this.eventosService.getEventosActivos().subscribe(
+      (eventos) => {
+        eventos.forEach((evento) => {
+          const coordinate = { 
+            lat: parseFloat(evento.Latitud.toString()),
+            lng: parseFloat(evento.Longitud.toString()) 
+          };
+          this.addTextMarker(coordinate, evento.NombreEvento, evento.Descripcion, this.formatDate(evento.Fecha));
+        });
+      },
+      (error) => {
+        console.error("Error al cargar eventos:", error);
+      }
+    );
+  }
+
+  // Función para formatear la fecha en un formato legible
+  formatDate(date: string): string {
+    const eventDate = new Date(date);
+    return eventDate.toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Agregar un marcador de texto para cada evento
+  addTextMarker(coordinate: any, title: string, description: string, formattedDate: string): void {
+    const smallContent = `<b>${title}</b>`;
+    const fullContent = `<b>${title}</b><br>${description}<br><i>Fecha: ${formattedDate}</i>`;
+
+    const marker = new H.map.DomMarker(coordinate, {
+      icon: this.createTextIcon(smallContent)
     });
-    map.addObject(destinationMarker);
+    this.map.addObject(marker);
+
+    // Agregar evento para expandir al hacer clic
+    marker.addEventListener('tap', () => {
+      marker.setIcon(this.createTextIcon(fullContent)); // Cambiar a la vista expandida
+    });
+
+    // Regresar al cuadro pequeño cuando el puntero se retira del cuadro
+    marker.addEventListener('pointerleave', () => {
+      marker.setIcon(this.createTextIcon(smallContent)); // Cambiar de nuevo a la vista compacta
+    });
   }
 
-  calculateRoute(platform: any, map: any): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const origin = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
+  // Crear un ícono de texto personalizado
+  createTextIcon(content: string): any {
+    const div = document.createElement('div');
+    div.style.fontSize = '14px';
+    div.style.padding = '8px';
+    div.style.borderRadius = '8px';
+    div.style.backgroundColor = 'blue';
+    div.style.color = 'white';
+    div.style.border = '1px solid #ddd';
+    div.style.maxWidth = '200px';
+    div.style.cursor = 'pointer';
+    div.style.textAlign = 'center';
+    div.innerHTML = content;
 
-        const routingParameters = {
-          routingMode: "fast",
-          transportMode: "car",
-          origin: origin.lat + ',' + origin.lng, // Ubicación actual del usuario
-          destination: this.destination.lat + ',' + this.destination.lng, // Ubicación fija de destino
-          return: "polyline"
-        };
-
-        const router = platform.getRoutingService(null, 8);
-        router.calculateRoute(routingParameters, (result: any) => {
-          if (result.routes.length) {
-            const route = result.routes[0];
-            route.sections.forEach((section: any) => {
-              const linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
-              const routeLine = new H.map.Polyline(linestring, {
-                style: { strokeColor: "#034F84", lineWidth: 3 }
-              });
-
-              const startMarker = new H.map.Marker(origin, {
-                icon: new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/e/e4/Red_dot.svg', { size: { w: 32, h: 32 } }) // Marcador rojo para el inicio
-              });
-
-              const endMarker = new H.map.Marker(this.destination, {
-                icon: new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/a/a5/Blue_dot.svg', { size: { w: 32, h: 32 } }) // Marcador azul para el destino
-              });
-
-              map.addObjects([routeLine, startMarker, endMarker]);
-              map.getViewModel().setLookAtData({ bounds: routeLine.getBoundingBox() });
-            });
-          }
-        }, (error: any) => {
-          alert("Error al calcular la ruta: " + error.message);
-        });
-      }, () => {
-        alert("No pudimos obtener su ubicación para calcular la ruta.");
-      });
-    } else {
-      alert("Geolocation no es soportada por este navegador.");
-    }
+    // Crear el ícono de texto
+    return new H.map.DomIcon(div);
   }
 }

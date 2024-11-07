@@ -43,6 +43,7 @@ button[mat-icon-button] {
   flex-grow: 1;
   margin-top: 60px; /* Ajuste para la altura de la navbar */
   overflow: hidden;
+  cursor:pointer;
 }
 
 .sidebar {

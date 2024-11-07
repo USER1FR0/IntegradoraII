@@ -34,8 +34,9 @@ import {MapComponent} from './map/map.component';
 import { PagarMultasComponent } from './components/menu/Options/Usuario/pagar-multas/pagar-multas.component';
 import { ComprarLibrosComponent } from './components/menu/Options/Usuario/comprar-libros/comprar-libros.component'
 import { MatDialogModule } from '@angular/material/dialog';
-import { EventosComponent } from './components/menu/options/Administrador/eventos/eventos.component';
-import { PaypalComponent } from './components/menu/options/usuario/paypal/paypal.component';
+import { EventosComponent } from './components/menu/Options/Administrador/eventos/eventos.component';
+import { PaypalComponent } from './components/menu/Options/Usuario/paypal/paypal.component';
+import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +58,7 @@ import { PaypalComponent } from './components/menu/options/usuario/paypal/paypal
     ComprarLibrosComponent,
     EventosComponent,
     PaypalComponent,
+    VideollamadaComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,12 @@
 <div class="container">
-  <h1>Pago de Multas Bibliotecarias</h1>
+  <div class="search-header">
+    <h2 class="title">Pago de Multas Bibliotecarias</h2>
+  </div>
 
   <!-- Seleccionar Número de Control -->
   <div>
-    <label for="NumeroControl">Número de Control:</label>
+    <br>
+    <label for="NumeroControl"><h2>Número de Control: </h2></label>
     <input type="text" id="NumeroControl" [(ngModel)]="numeroControlInput" (change)="loadMultasPendientes()" placeholder="Ingrese su número de control" required>
   </div>
 
@@ -27,7 +30,6 @@
           <td>{{ multa.FechaInicio | date:'short' }}</td>
           <td>{{ multa.IdPrestamo }}</td>
           <td>
-            <!-- Botón Pagar -->
             <button class="pay-button" (click)="pagarMulta(multa)">Pagar</button>
           </td>
         </tr>
@@ -36,7 +38,7 @@
   </div>
 
   <div *ngIf="multasPendientes.length === 0">
-    <p>No tienes multas pendientes.</p>
+    <h2><p>No tienes multas pendientes.</p></h2>
   </div>
 
   <!-- Contenedor de PayPal, visible solo si hay una multa seleccionada -->
@@ -45,6 +47,44 @@
     <p>Multa seleccionada: {{ multaSeleccionada.IdMulta }} - {{ multaSeleccionada.Monto | currency }}</p>
     
     <!-- Componente de PayPal -->
-    <app-paypal [multa]="multaSeleccionada"></app-paypal>
+    <app-paypal [multa]="multaSeleccionada" (pagoCompletado)="onPagoCompletado($event)"></app-paypal>
   </div>
+
+  <!-- Mostrar recibo si el pago fue completado -->
+<div *ngIf="recibo" class="recibo">
+  <h2>Recibo de Pago</h2>
+  <p><strong>ID de Pago:</strong> {{ recibo.id }}</p>
+  <p><strong>ID de Multa:</strong> {{ recibo.idMulta }}</p>
+  <p><strong>Monto Pagado:</strong> {{ recibo.monto | currency }}</p>
+  <p><strong>Fecha de Pago:</strong> {{ recibo.fecha }}</p>
+
+  <h3>Detalles del Pago</h3>
+  <ul>
+    <li><strong>Estado:</strong> {{ recibo.detallesPago.status }}</li>
+    <li><strong>Intención:</strong> {{ recibo.detallesPago.intent }}</li>
+    <li><strong>Moneda:</strong> {{ recibo.detallesPago.purchase_units[0].amount.currency_code }}</li>
+    <li><strong>Payee Email:</strong> {{ recibo.detallesPago.purchase_units[0].payee.email_address }}</li>
+  </ul>
+
+  <h3>Información de Envío</h3>
+  <ul>
+    <li><strong>Nombre Completo:</strong> {{ recibo.detallesPago.purchase_units[0].shipping.name.full_name }}</li>
+    <li><strong>Dirección:</strong> 
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.address_line_1 }},
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.address_line_2 }},
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.admin_area_2 }},
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.admin_area_1 }},
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.postal_code }},
+      {{ recibo.detallesPago.purchase_units[0].shipping.address.country_code }}
+    </li>
+  </ul>
+
+  <h3>Información del Payer</h3>
+  <ul>
+    <li><strong>Nombre:</strong> {{ recibo.detallesPago.payer.name.given_name }} {{ recibo.detallesPago.payer.name.surname }}</li>
+    <li><strong>Email del Payer:</strong> {{ recibo.detallesPago.payer.email_address }}</li>
+    <li><strong>ID del Payer:</strong> {{ recibo.detallesPago.payer.payer_id }}</li>
+    <li><strong>País:</strong> {{ recibo.detallesPago.payer.address.country_code }}</li>
+  </ul>
+</div>
 </div>
