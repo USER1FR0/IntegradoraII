@@ -1,14 +1,15 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { SidebarService } from './Options/Services/sidebar.services';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
+import { ChatbaseService } from './Options/Services/chatbot.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   isSidebarHidden = false;
   showSearch = false;
   showNewBooks = false;
@@ -20,15 +21,25 @@ export class MenuComponent {
   isFooterVisible = false;
   comprarLibros = false;
   pagarMultas = false;
+
   eventos = false;
   llamada = false;
   showNoticias = true; // Inicialmente mostramos las noticias
   showDevolucionDeLibros = false; // Asegúrate de que esta propiedad esté definida
   noticiasItems: any[] = [];
-   
-  constructor(private sidebarService: SidebarService, private http: HttpClient, private router: Router) {
+
+  constructor(
+    private sidebarService: SidebarService,
+    private http: HttpClient,
+    private router: Router,
+    private chatbaseService: ChatbaseService // Inyecta el servicio del chatbot
+  ) {
     this.sidebarService.sidebarHidden$.subscribe(hidden => this.isSidebarHidden = hidden);
     this.cargarNoticias();
+  }
+
+  ngOnInit() {
+    this.chatbaseService.loadChatbot(); // Llama a loadChatbot cuando el componente se inicializa
   }
 
   toggleSidebar() {
@@ -91,8 +102,8 @@ export class MenuComponent {
 
   mostrarDevolucionDeLibros() {
     this.resetViews();
-    this.showDevolucionDeLibros = true; // Cambia a true para mostrar el componente
-}
+    this.showDevolucionDeLibros = true;
+  }
 
   toggleDropdown() {
     this.isDropdownVisible = !this.isDropdownVisible;
@@ -103,8 +114,8 @@ export class MenuComponent {
   }
 
   logout() {
-    localStorage.removeItem('token'); // Elimina el token de localStorage
-    this.router.navigate(['/home']); // Redirige a la página de inicio de sesión
+    localStorage.removeItem('token');
+    this.router.navigate(['/home']);
   }
 
   private resetViews() {
@@ -115,8 +126,9 @@ export class MenuComponent {
     this.showLectores = false;
     this.showReporte = false;
     this.showNoticias = false;
-    this.comprarLibros=false;
+    this.comprarLibros = false;
     this.pagarMultas = false;
+
     this.eventos = false;
     this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
     this.llamada=false;
@@ -134,7 +146,6 @@ export class MenuComponent {
   }
 
   private cargarNoticias() {
-    // Simulando una llamada a API con datos de ejemplo
     this.noticiasItems = [
       {
         titulo: "Nueva colección de libros clásicos",
