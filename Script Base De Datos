@@ -77,6 +77,29 @@ CREATE TABLE Multas (
 Select *
 from Multas;
 
+-- Tabla Eventos
+Use Biblioteca;
+
+drop table Eventos;
+
+CREATE TABLE Eventos(
+IdEvento INT AUTO_INCREMENT PRIMARY KEY,
+NombreEvento nvarchar(100),
+Latitud decimal(10,8),
+Longitud decimal(11,8),
+Fecha Date,
+Descripcion text,
+estatus nvarchar (50)
+);
+
+delete from Eventos
+where idEvento = 8 or idEvento = 2 or idEvento = 3 or idEvento = 4 or idEvento = 5 or idEvento = 6;
+
+Select * from Eventos;
+INSERT INTO Eventos (NombreEvento, Latitud, Longitud, Fecha, Descripcion, estatus)
+VALUES ('Festival de Música', 21.16183, -100.93405, '2024-12-20', 'Festival con artistas internacionales.', 'Activo');
+INSERT INTO Eventos (NombreEvento, Latitud, Longitud, Fecha, Descripcion, estatus)
+VALUES ('Conferencia de Tecnología', 21.15853, -100.93532, '2024-11-15', 'Una conferencia sobre avances tecnológicos.', 'Activo');
 
 DELIMITER //
 
@@ -133,3 +156,28 @@ from Multas;
 
 Alter user 'root'@'localhost' identified with mysql_native_password by '';
 flush privileges;
+
+
+SELECT 
+    p.IdPrestamo,
+    p.NumeroControl,
+    l.NombreCompleto AS NombreLector,
+    l.Correo AS CorreoLector,
+    l.CorreoConfirmado AS CorreoConfirmado,
+    p.ISBN,
+    lb.Titulo AS TituloLibro,
+    lb.Autor AS AutorLibro,
+    lb.Tema AS TemaLibro,
+    lb.Categoria AS CategoriaLibro,
+    lb.Descripcion AS DescripcionLibro,
+    p.FechaPrestamo,
+    p.FechaDevolucion,
+    p.IdBibliotecario,
+    p.Estado
+FROM Prestamo p
+JOIN Lector l ON p.NumeroControl = l.NumeroControl
+JOIN Libro lb ON p.ISBN = lb.ISBN;
+
+SELECT * FROM Prestamo p
+JOIN Lector l ON p.NumeroControl = l.NumeroControl
+JOIN Libro lb ON p.ISBN = lb.ISBN;
