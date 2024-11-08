@@ -21,8 +21,11 @@ export class MenuComponent implements OnInit {
   isFooterVisible = false;
   comprarLibros = false;
   pagarMultas = false;
-  showNoticias = true;
-  showDevolucionDeLibros = false;
+
+  eventos = false;
+  llamada = false;
+  showNoticias = true; // Inicialmente mostramos las noticias
+  showDevolucionDeLibros = false; // Asegúrate de que esta propiedad esté definida
   noticiasItems: any[] = [];
 
   constructor(
@@ -46,6 +49,11 @@ export class MenuComponent implements OnInit {
   showSearchBooks() {
     this.resetViews();
     this.showSearch = true;
+  }
+
+  showLlamada(){
+    this.resetViews();
+    this.llamada = true;
   }
 
   showNewBook() {
@@ -83,6 +91,10 @@ export class MenuComponent implements OnInit {
     this.pagarMultas = true;
   }
 
+  showEventos(){
+    this.resetViews();
+    this.eventos = true;
+  }
   showNoticiasSection() {
     this.resetViews();
     this.showNoticias = true;
@@ -116,7 +128,11 @@ export class MenuComponent implements OnInit {
     this.showNoticias = false;
     this.comprarLibros = false;
     this.pagarMultas = false;
-    this.showDevolucionDeLibros = false;
+
+    this.eventos = false;
+    this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
+    this.llamada=false;
+    this.llamada=false;
   }
 
   @HostListener('window:scroll', [])

@@ -15,6 +15,7 @@ import { AuthGuard } from './auth.guard';
 import { ErrorComponent } from './components/home/error/error.component';
 import { ipComponent } from './components/menu/Options/Administrador/ip/ip.component';
 import { MapComponent } from './map/map.component';
+import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
 
 
 const routes: Routes = [
@@ -37,7 +38,9 @@ const routes: Routes = [
   {path: 'personalizado', component: PersonalisadoComponent, canActivate: [AuthGuard] },
   {path: 'ip', component: ipComponent},
   {path: 'mapa', component: MapComponent},
-  { path: '**', redirectTo: '/home' } // Redirige cualquier ruta no definida a /home
+  {path: 'videollamada', component: VideollamadaComponent},
+  { path: '**', redirectTo: '/home' }, // Redirige cualquier ruta no definida a /home
+ 
 
 ];
 

@@ -1,1 +1,70 @@
-<p>eventos works!</p>
+<div class="contenedor-centralizado">
+  <div *ngIf="!isRegistroVisible && !isEventosVisible" class="opciones-acciones">
+    <button (click)="showRegistro()" class="accion-boton">Registrar Evento</button>
+    <button (click)="showEventos()" class="accion-boton">Ver Eventos</button>
+  </div>
+
+  <div *ngIf="isRegistroVisible" class="registro-evento">
+    <h1 class="form-title">{{ editMode ? 'Editar Evento' : 'Registro de Nuevos Eventos' }}</h1>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="NombreEvento">Nombre del Evento</label>
+        <input type="text" id="NombreEvento" placeholder="Nombre del Evento" maxlength="50" [(ngModel)]="Evento.Nombre" name="Nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="Latitud">Latitud</label>
+        <input type="text" id="Latitud" placeholder="Latitud" maxlength="50" [(ngModel)]="Evento.Latitud" name="Latitud" required>
+      </div>
+      <div class="form-group">
+        <label for="Longitud">Longitud</label>
+        <input type="text" id="Longitud" placeholder="Longitud" maxlength="50" [(ngModel)]="Evento.Longitud" name="Longitud" required>
+      </div>
+      <div class="form-group">
+        <label for="Fecha">Fecha</label>
+        <input type="date" id="Fecha" [(ngModel)]="Evento.Fecha" name="Fecha" required>
+      </div>
+      <div class="form-group">
+        <label for="Descripcion">Descripción</label>
+        <input type="text" id="Descripcion" placeholder="Descripción" maxlength="50" [(ngModel)]="Evento.Descripcion" name="Descripcion" required>
+      </div>
+      <button type="submit">{{ editMode ? 'Actualizar' : 'Guardar' }}</button>
+      <button type="button" (click)="resetView()" class="accion-boton">Volver</button>
+    </form>
+  </div>
+
+  <div *ngIf="isEventosVisible" class="eventos-registrados">
+    <h1>Eventos Registrados</h1>
+
+    <div class="barra-busqueda">
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar por nombre, descripción o estatus" />
+    </div>
+
+    <div *ngIf="loading">Cargando...</div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>Evento</th>
+          <th>Fecha</th>
+          <th>Descripción</th>
+          <th>Estatus</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of filterEvents()">
+          <td>{{ event.NombreEvento }}</td>
+          <td>{{ event.Fecha | date }}</td>
+          <td>{{ event.Descripcion }}</td>
+          <td>{{ event.estatus }}</td>
+          <td>
+            <button (click)="editarEvento(event)">Editar</button>
+            <button (click)="eliminarEvento(event.IdEvento)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" (click)="resetView()" class="accion-boton">Volver</button>
+  </div>
+</div>
