@@ -13,6 +13,7 @@ export class MapComponent implements OnInit {
   private platform: any;
   private userPosition: any; // Variable para almacenar la ubicación del usuario
   private currentBubble: any; // Variable para almacenar el cuadro de información actual
+  private userMarker: any; // Variable para almacenar el marcador de la posición del usuario
 
   constructor(private eventosService: EventosService) {}
 
@@ -53,8 +54,11 @@ export class MapComponent implements OnInit {
           };
           console.log("Ubicación del usuario:", this.userPosition);
 
-          // Centrar el mapa en la posición del usuario sin agregar marcador
+          // Centrar el mapa en la posición del usuario
           this.map.setCenter(this.userPosition);
+
+          // Agregar un marcador rojo en la ubicación del usuario
+          this.addUserMarker(this.userPosition);
         },
         () => {
           alert("No pudimos obtener su ubicación.");
@@ -63,6 +67,16 @@ export class MapComponent implements OnInit {
     } else {
       alert("Geolocation no es soportada por este navegador.");
     }
+  }
+
+  // Agregar un marcador rojo en la ubicación actual del usuario
+  addUserMarker(position: any): void {
+    const userIcon = new H.map.Icon(
+      'https://upload.wikimedia.org/wikipedia/commons/e/e4/Red_dot.svg',
+      { size: { w: 32, h: 32 } }
+    );
+    this.userMarker = new H.map.Marker(position, { icon: userIcon });
+    this.map.addObject(this.userMarker);
   }
 
   // Cargar los eventos activos desde el servicio y agregar "cuadros de texto" como marcadores

@@ -1,12 +1,38 @@
-/* Estilos generales para el contenedor de búsqueda */
-.search-books {
-    position: relative;
+/* Contenedor de las pestañas */
+.tab-container {
+    max-width: 900px;
+    margin: auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
-    max-width: 900px;
-    margin: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones de las pestañas */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-buttons button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+}
+
+.tab-buttons button.active {
+    background-color: #4A90E2;
+    color: white;
+}
+
+.tab-buttons button:hover:not(.active) {
+    background-color: #e0e0e0;
 }
 
 /* Encabezado de la búsqueda */
@@ -23,7 +49,6 @@
     letter-spacing: 1px;
 }
 
-/* Campo de entrada de búsqueda */
 .search-header input {
     width: 100%;
     padding: 10px;
@@ -34,7 +59,6 @@
     margin-bottom: 10px;
 }
 
-/* Botón de búsqueda */
 .search-button {
     background-color: #4A90E2;
     color: white;
@@ -51,8 +75,18 @@
     transform: scale(1.05);
 }
 
-/* Nuevo contenedor de fondo blanco para los resultados */
-.results-wrapper {
+.loading, .error-message, .no-results {
+    font-size: 1em;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+}
+
+.results-container, .results-wrapper {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
@@ -60,45 +94,6 @@
     margin-top: 20px;
 }
 
-/* Contenedor de resultados */
-.results-container {
-    margin-top: 20px;
-}
-
-/* Estilos para cada resultado en la búsqueda general */
-.results h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.result {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.result h3 {
-    font-size: 1.2rem;
-    margin: 0;
-}
-
-.result h3 a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.result h3 a:hover {
-    text-decoration: underline;
-}
-
-.result p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: 5px;
-}
-
-/* Estilos específicos para la búsqueda de libros */
 .results {
     display: flex;
     flex-wrap: wrap;
@@ -106,7 +101,7 @@
     justify-content: center;
 }
 
-.book {
+.book, .result {
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -123,15 +118,14 @@
     margin-bottom: 10px;
 }
 
-/* Adaptaciones para pantallas pequeñas */
 @media screen and (max-width: 768px) {
-    .book {
+    .book, .result {
         width: calc(50% - 40px);
     }
 }
 
 @media screen and (max-width: 480px) {
-    .book {
+    .book, .result {
         width: 100%;
     }
 }

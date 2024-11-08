@@ -9,11 +9,16 @@ declare var bootstrap: any;
   styleUrls: ['./comprar-libros.component.css']
 })
 export class ComprarLibrosComponent implements OnInit {
+  activeTab:string='library';
   books: any[] = [];
   customSearchResults: any[] = [];
   searchTerm: string = '';
   searchTermCustom: string = '';
-  selectedBook: any = null; // Para almacenar el libro seleccionado
+  selectedBook: any = null;
+  isLoadingBooks: boolean = false;
+  isLoadingCustom: boolean = false;
+  booksError: string = '';
+  customSearchError: string = '';
 
   constructor(
     private booksService: BooksService,
@@ -25,12 +30,17 @@ export class ComprarLibrosComponent implements OnInit {
   // Método para buscar libros en la API de Google Books
   searchBooks(): void {
     if (this.searchTerm) {
+      this.isLoadingBooks = true;
+      this.booksError = '';
       this.booksService.getBooks(this.searchTerm).subscribe(
         (data) => {
           this.books = data;
+          this.isLoadingBooks = false;
         },
         (error) => {
           console.error('Error al obtener los libros:', error);
+          this.booksError = 'Hubo un problema al cargar los resultados de la búsqueda.';
+          this.isLoadingBooks = false;
         }
       );
     }
@@ -39,12 +49,17 @@ export class ComprarLibrosComponent implements OnInit {
   // Método para buscar en Google Custom Search API
   searchCustom(): void {
     if (this.searchTermCustom) {
+      this.isLoadingCustom = true;
+      this.customSearchError = '';
       this.searchService.search(this.searchTermCustom).subscribe(
         (data) => {
           this.customSearchResults = data.items || [];
+          this.isLoadingCustom = false;
         },
         (error) => {
           console.error('Error en la búsqueda personalizada:', error);
+          this.customSearchError = 'Hubo un problema al cargar los resultados de la búsqueda.';
+          this.isLoadingCustom = false;
         }
       );
     }

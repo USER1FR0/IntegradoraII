@@ -1,45 +1,62 @@
-<div class="search-books">
-  <div class="search-header">
-      <h2 class="title">Buscar Libros</h2>
-      <input 
-          type="text" 
-          placeholder="Buscar libros..." 
-          [(ngModel)]="searchTerm">
-      <button class="search-button" (click)="searchBooks()">Buscar</button>
+<div class="tab-container">
+  <div class="tab-buttons">
+    <button (click)="activeTab = 'library'" [class.active]="activeTab === 'library'">Buscar en Biblioteca</button>
+    <button (click)="activeTab = 'web'" [class.active]="activeTab === 'web'">Buscar en la Web</button>
   </div>
 
-  <div *ngIf="books.length > 0" class="results-container">
+  <!-- Buscador de Biblioteca -->
+  <div *ngIf="activeTab === 'library'" class="search-section">
+    <div class="search-header">
+      <h2 class="title">Buscar Libros en Biblioteca</h2>
+      <input 
+        type="text" 
+        placeholder="Buscar libros..." 
+        [(ngModel)]="searchTerm">
+      <button class="search-button" (click)="searchBooks()">Buscar</button>
+    </div>
+
+    <div *ngIf="isLoadingBooks" class="loading">Cargando resultados...</div>
+    <div *ngIf="booksError" class="error-message">{{ booksError }}</div>
+    <div *ngIf="!isLoadingBooks && books.length === 0 && !booksError" class="no-results">No se encontraron libros.</div>
+    
+    <div *ngIf="books.length > 0" class="results-container">
       <h2>Resultados de la búsqueda de libros</h2>
       <div class="results">
-          <div *ngFor="let book of books" class="book">
-              <img [src]="book.volumeInfo.imageLinks?.thumbnail" alt="Portada del libro" class="book-cover">
-              <h3>{{ book.volumeInfo.title }}</h3>
-              <p><strong>Autor:</strong> {{ book.volumeInfo.authors?.join(', ') }}</p>
-              <p><strong>Fecha de publicación:</strong> {{ book.volumeInfo.publishedDate }}</p>
-              <button class="btn btn-primary" (click)="openModal(book)">Ver más detalles</button>
-          </div>
+        <div *ngFor="let book of books" class="book">
+          <img [src]="book.volumeInfo.imageLinks?.thumbnail" alt="Portada del libro" class="book-cover">
+          <h3>{{ book.volumeInfo.title }}</h3>
+          <p><strong>Autor:</strong> {{ book.volumeInfo.authors?.join(', ') }}</p>
+          <p><strong>Fecha de publicación:</strong> {{ book.volumeInfo.publishedDate }}</p>
+          <button class="btn btn-primary" (click)="openModal(book)">Ver más detalles</button>
+        </div>
       </div>
+    </div>
   </div>
-</div>
 
-<!-- Barra de búsqueda personalizada -->
-<div class="search-custom">
-  <h2 class="title">Páginas para comprar libros</h2>
-  <input 
-      type="text" 
-      placeholder="Buscar libros en la web..." 
-      [(ngModel)]="searchTermCustom">
-  <button class="search-button" (click)="searchCustom()">Buscar</button>
+  <!-- Buscador Web -->
+  <div *ngIf="activeTab === 'web'" class="search-section">
+    <div class="search-header">
+      <h2 class="title">Buscar Libros en la Web</h2>
+      <input 
+        type="text" 
+        placeholder="Buscar libros en la web..." 
+        [(ngModel)]="searchTermCustom">
+      <button class="search-button" (click)="searchCustom()">Buscar</button>
+    </div>
 
-  <!-- Contenedor con fondo blanco para los resultados personalizados -->
-  <div *ngIf="customSearchResults.length > 0" class="results-wrapper">
+    <div *ngIf="isLoadingCustom" class="loading">Cargando resultados...</div>
+    <div *ngIf="customSearchError" class="error-message">{{ customSearchError }}</div>
+    <div *ngIf="!isLoadingCustom && customSearchResults.length === 0 && !customSearchError" class="no-results">No se encontraron resultados en la web.</div>
+
+    <div *ngIf="customSearchResults.length > 0" class="results-wrapper">
       <h2>Resultados de los libros</h2>
       <div class="results">
-          <div *ngFor="let result of customSearchResults" class="result">
-              <h3><a [href]="result.link" target="_blank">{{ result.title }}</a></h3>
-              <p>{{ result.snippet }}</p>
-          </div>
+        <div *ngFor="let result of customSearchResults" class="result">
+          <h3><a [href]="result.link" target="_blank">{{ result.title }}</a></h3>
+          <p>{{ result.snippet }}</p>
+        </div>
       </div>
+    </div>
   </div>
 </div>
 

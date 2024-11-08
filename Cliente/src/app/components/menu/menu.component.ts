@@ -125,13 +125,12 @@ export class MenuComponent implements OnInit {
     this.showRegistro = false;
     this.showLectores = false;
     this.showReporte = false;
+    this.showReporte=false;
     this.showNoticias = false;
     this.comprarLibros = false;
     this.pagarMultas = false;
-
     this.eventos = false;
     this.showDevolucionDeLibros = false; // Resetea la propiedad de devolución de libros
-    this.llamada=false;
     this.llamada=false;
   }
 
