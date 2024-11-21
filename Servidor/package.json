@@ -20,6 +20,7 @@
     "express": "^4.19.2",
     "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
+    "lru.min": "^1.1.1",
     "mapbox-gl": "^3.7.0",
     "mssql": "^11.0.1",
     "multer": "^1.4.5-lts.1",
