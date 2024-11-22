@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://192.168.1.143:3000'; // URL base de tu backend
+  private baseUrl = 'https://bibliotecaapi-4.onrender.com'; // URL base de tu backend
 
   constructor(private http: HttpClient) {}
 
