@@ -16,7 +16,7 @@ interface Evento {
   providedIn: 'root'
 })
 export class EventosService {
-  private apiUrl = 'hhttps://bibliotecaapi-4.onrender.com/eventos'; // URL base de tu API
+  private apiUrl = 'https://bibliotecaapi-4.onrender.com/eventos'; // URL base de tu API
 
   constructor(private http: HttpClient) {}
 
