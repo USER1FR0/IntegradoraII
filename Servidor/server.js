@@ -23,9 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const dbConfig = {
-  host: 'biblioteca.cvi84aqmu8ti.us-east-2.rds.amazonaws.com',
+  host: 'localhost',
   user: 'root',
-  password: 'linux123#Biblioteca',
+  password: '',
   database: 'Biblioteca'
 };
 
