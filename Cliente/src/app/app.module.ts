@@ -37,6 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EventosComponent } from './components/menu/Options/Administrador/eventos/eventos.component';
 import { PaypalComponent } from './components/menu/Options/Usuario/paypal/paypal.component';
 import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
+import { FbLoginComponent } from './components/home/fb-login/fb-login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +60,7 @@ import { VideollamadaComponent } from './components/menu/Options/Administrador/v
     EventosComponent,
     PaypalComponent,
     VideollamadaComponent,
+    FbLoginComponent
   ],
   imports: [
     BrowserModule,
