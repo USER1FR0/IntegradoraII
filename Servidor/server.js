@@ -367,6 +367,7 @@ app.post('/lector', (req, res) => {
 
     const confirmUrl = `https://bibliotecaapi-4.onrender.com/confirm/${token}`;
 
+  
 // Enviar correo de confirmación
 const mailOptions = {
   from: userGmail,
