@@ -1,0 +1,7 @@
+#Sun Nov 24 22:01:39 CST 2024
+base.0=C\:\\Users\\Dell Latitude 7410\\Desktop\\BibliotecaApi\\Cliente\\android\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+base.1=C\:\\Users\\Dell Latitude 7410\\Desktop\\BibliotecaApi\\Cliente\\android\\app\\build\\intermediates\\global_synthetics_dex\\release\\classes.dex
+path.0=classes.dex
+path.1=classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

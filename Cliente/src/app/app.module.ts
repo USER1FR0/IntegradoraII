@@ -22,7 +22,7 @@ import { ConfirmacionDeEmailComponent } from './components/menu/Options/Administ
 import { MultasComponent } from './components/menu/Options/Administrador/multas/multas.component';
 import { RegistroBibiotecariosModule } from './components/menu/Options/Administrador/RegistroBibliotecarios/bibliotecarios.component';
 import { RegistroLectorComponent } from './components/menu/Options/Administrador/Lectores/lectores.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { PersonalisadoComponent } from './components/menu/Options/Administrador/ReportePersonalisado/personalisados.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
@@ -37,6 +37,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EventosComponent } from './components/menu/Options/Administrador/eventos/eventos.component';
 import { PaypalComponent } from './components/menu/Options/Usuario/paypal/paypal.component';
 import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
+import {AuthInterceptor} from './auth.interceptor'
+import { SessionExpiredDialogComponent } from './components/home/login/logout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +61,7 @@ import { VideollamadaComponent } from './components/menu/Options/Administrador/v
     EventosComponent,
     PaypalComponent,
     VideollamadaComponent,
+    SessionExpiredDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -77,10 +80,12 @@ import { VideollamadaComponent } from './components/menu/Options/Administrador/v
     MatSnackBarModule,
     HttpClientModule,
     BrowserAnimationsModule, 
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {provide: HTTP_INTERCEPTORS,useClass: AuthInterceptor,multi:true},
   ],
   bootstrap: [AppComponent]
 })
