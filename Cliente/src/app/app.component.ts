@@ -1,5 +1,6 @@
 // app.component.ts
 import { Component } from '@angular/core';
+import { NewsService } from './components/Services/news.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,22 @@ export class AppComponent {
   showNewBooks = false;
   showEmailConfirm = false;
   showMultas = false;
+  news: any[] = [];
+  translatedNews: any[] = [];
 
+  constructor(
+    private newsService: NewsService
+  ) {}
+
+  ngOnInit(): void {
+    // Obtener las noticias
+    this.newsService.getTopHeadlines().subscribe({
+      next: (response) => {
+        this.news = response.articles;
+      },
+      error: (err) => console.error('Error al obtener noticias:', err),
+    });
+  }
   toggleSidebar() {
     this.isSidebarHidden = !this.isSidebarHidden;
   }

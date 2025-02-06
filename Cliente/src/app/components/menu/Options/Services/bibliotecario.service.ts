@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class BibliotecarioService {
   private apiUrl = 'http://localhost:3000/bibliotecarios'; // Asegúrate que la URL sea la correcta
 
+
   constructor(private http: HttpClient) {}
 
   // Registrar un nuevo bibliotecario

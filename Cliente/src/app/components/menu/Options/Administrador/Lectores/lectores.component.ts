@@ -35,6 +35,7 @@ export class RegistroLectorComponent implements OnInit {
         // Si estamos registrando un nuevo lector
         this.addLector();
       }
+
     } else {
       this.errorMessage = 'Todos los campos son obligatorios';
     }

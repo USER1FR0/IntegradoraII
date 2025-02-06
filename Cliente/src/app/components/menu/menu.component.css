@@ -48,7 +48,7 @@ button[mat-icon-button] {
 
 .sidebar {
   background-color: #2B6ADF;
-  height: calc(100vh - 60px); /* Ajustar para la altura del navbar */
+  height: calc(100vh - 60px); /* Ajustar la altura basada en la pantalla menos el navbar */
   width: 220px;
   padding: 15px;
   color: white;
@@ -58,8 +58,10 @@ button[mat-icon-button] {
   position: fixed;
   top: 60px;
   left: 0;
-  bottom: 0;
+  margin-bottom: 50px; /* Espacio desde la parte baja */
+  box-sizing: border-box; /* Asegura que los márgenes no desborden el contenedor */
 }
+
 
 .sidebar.hidden {
   transform: translateX(-100%);

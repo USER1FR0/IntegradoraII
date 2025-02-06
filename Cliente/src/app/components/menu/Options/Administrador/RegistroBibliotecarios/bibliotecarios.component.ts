@@ -22,6 +22,7 @@ export class RegistroBibiotecariosComponent implements OnInit {
 
   ngOnInit() {
     this.loadBibliotecarios();
+
   }
 
   // Cargar todos los bibliotecarios
