@@ -57,7 +57,12 @@ export class LoginComponent {
         next: (response) => {
             console.log('Respuesta del servidor', response);
             alert(response.message);
+            
             localStorage.setItem('token', response.token); // Almacena el token en localStorage
+            if(response.email){
+              localStorage.setItem('email', response.email);
+              console.log('COrreo del usuario:', response.email);
+            }
             this.modal.dismiss();
             this.router.navigate(['/menu']);
         },

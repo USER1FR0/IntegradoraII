@@ -70,13 +70,23 @@ app.post('/login', async (req, res) => {
         if (username === 'root' && password === '123456') {
           const rootUser = { id: 0, username: 'root' }; 
           const token = generateToken(rootUser); 
-          return res.status(200).send({ message: 'Login realizado exitosamente con usuario administrador', token });
+
+          sendEmail(
+            'f51783145@gmail.com',
+            'Inicio de sesion como administrador',
+            'El inicio de sesion ha sido exitoso.'
+          );
+          return res.status(200).send({ 
+            message: 'Login realizado exitosamente con usuario administrador', 
+            token });
         } else {
           return res.status(401).send({ message: 'Credenciales inválidas' });
         }
       } else {
         // Si hay usuarios registrados, proceder con la autenticación normal
-        pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', [username], (err, results) => {
+        pool.query('SELECT * FROM Bibliotecario WHERE NombreUsuario = ?', 
+          [username], 
+          (err, results) => {
           if (err) {
             console.error('Error durante la consulta:', err);
             return res.status(500).send({ message: 'Error interno del servidor' });
@@ -91,7 +101,12 @@ app.post('/login', async (req, res) => {
 
           if (bcrypt.compareSync(password, Contrasena)) {
             const token = generateToken(user); // Genera un token (implementa esta función)
-            return res.status(200).send({ message: 'Login realizado exitosamente', token });
+            const userEmail = user.correo ||'No especificado';
+            return res.status(200).send({
+              message: 'Inicio de sesion exitoso',
+              token,
+              email: userEmail,
+            })
           } else {
             return res.status(401).send({ message: 'Credenciales inválidas' });
           }
@@ -104,13 +119,63 @@ app.post('/login', async (req, res) => {
   }
 });
 
+function sendEmail(to, subject, text){
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'f51783145@gmail.com',
+      pass: 'hocy jnta jwaw dxkz'
+    }
+  });
 
-// Función para generar un token 
-function generateToken(user) {
-  // Implementa la lógica para generar un token, por ejemplo usando jsonwebtoken
-  return 'token'; // Reemplaza esto con el token real
+  const mailOptions={
+    from: 'f51783145@gmail.com',
+    to,
+    subject,
+    text,
+  }
+
+  transporter.sendMail(mailOptions,(error,info)=>{
+    if(error){
+      return console.log.error('Error al enviar el correo: ',error);
+    }
+    console.log('Correo enviado: '+info.response);
+  })
 }
 
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = 'B18LI073(4'
+// Función para generar un token 
+
+function generateToken(user) {
+  const payload ={
+    id: user.id,
+    username: user.username,
+  }
+  return jwt.sign(payload, JWT_SECRET,{expiresIn: '1m'})
+}
+
+function authenticateToken(req,res,next){
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if(!token){
+    return res.status(401).send({message:'Token no proporcionado'})
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(403).send({ message: 'Token expirado' });
+      }
+      return res.status(403).send({ message: 'Token no válido' });
+    }
+    console.log('Token recibido:', token);
+    req.user = user; // Almacena los datos del usuario en la solicitud
+    next();
+  });
+}
 // Obtener todas las tablas de la base de datos
 app.get('/tables/:table', (req, res) => {
   const tableName = req.params.table;
@@ -131,7 +196,7 @@ app.get('/tables/:table', (req, res) => {
 
 
 // Añadir un nuevo libro
-app.post('/addBook', upload.single('portada'), (req, res) => {
+app.post('/addBook', upload.single('portada'), authenticateToken,(req, res) => {
   console.log('Cuerpo de la solicitud:', req.body);
   console.log('Archivo recibido:', req.file);
 
@@ -166,7 +231,7 @@ app.post('/addBook', upload.single('portada'), (req, res) => {
 // Rutas para manejar libros
 
 // Actualizar solo la cantidad de ejemplares
-app.put('/updateBook/quantity/:isbn', (req, res) => {
+app.put('/updateBook/quantity/:isbn',authenticateToken, (req, res) => {
   const { isbn } = req.params;
   const { NumeroEjemplares } = req.body;
 
@@ -194,7 +259,7 @@ app.put('/updateBook/quantity/:isbn', (req, res) => {
 });
 
 // Actualizar un libro (detalles)
-app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
+app.put('/updateBook/:isbn', upload.single('portada'), authenticateToken,(req, res) => {
   const { isbn } = req.params;
   const { Titulo, Autor, Tema, Categoria, Descripcion, NumeroEjemplares } = req.body;
   const portada = req.file ? req.file.buffer : null;
@@ -233,7 +298,7 @@ app.put('/updateBook/:isbn', upload.single('portada'), (req, res) => {
 
 
 // Eliminar un libro
-app.delete('/deleteBook/:isbn', (req, res) => {
+app.delete('/deleteBook/:isbn',authenticateToken, (req, res) => {
   const { isbn } = req.params;
 
   // Primero, eliminar los préstamos asociados
@@ -293,7 +358,7 @@ app.get('/searchBooks', (req, res) => {
 
 
 // Nueva ruta para préstamo de libros
-app.post('/loanBook', (req, res) => {
+app.post('/loanBook',authenticateToken, (req, res) => {
   const { numeroControl, isbn, fechaPrestamo, fechaDevolucion, idBibliotecario } = req.body;
 
   // Verificar si el número de control es proporcionado
@@ -346,7 +411,7 @@ app.post('/loanBook', (req, res) => {
     const crypto = require('crypto'); // Importar crypto para generar tokens
 
 // Añadir un nuevo lector
-app.post('/lector', (req, res) => {
+app.post('/lector', authenticateToken,(req, res) => {
   const { NombreCompleto, NumeroControl, Correo } = req.body;
 
   if (!NombreCompleto || !NumeroControl || !Correo) {
@@ -465,7 +530,7 @@ app.get('/confirm/:token', (req, res) => {
 
 
 // Actualizar un lector
-app.put('/lector/:id', (req, res) => {
+app.put('/lector/:id', authenticateToken,(req, res) => {
   const { id } = req.params;
   const { NombreCompleto, NumeroControl, Correo } = req.body;
 
@@ -491,7 +556,7 @@ app.put('/lector/:id', (req, res) => {
 });
 
 // Eliminar un lector
-app.delete('/lector/:id', (req, res) => {
+app.delete('/lector/:id', authenticateToken,(req, res) => {
   const { id } = req.params;
 
   pool.query('DELETE FROM Lector WHERE id = ?', [id], (err) => {
@@ -505,7 +570,7 @@ app.delete('/lector/:id', (req, res) => {
 });
 
 // Buscar lectores
-app.get('/lector', (req, res) => {
+app.get('/lector',authenticateToken, (req, res) => {
   const { busqueda, NumeroControl, Correo, NombreCompleto } = req.query;
   let query = 'SELECT * FROM Lector WHERE 1=1';
   const params = [];
@@ -566,7 +631,7 @@ pool.query(query, (err, results) => {
 });
 
 // Añadir un nuevo bibliotecario
-app.post('/bibliotecarios', (req, res) => {
+app.post('/bibliotecarios', authenticateToken,(req, res) => {
 const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
 
 if (!NombreCompleto || !Correo || !Telefono || !NombreUsuario || !Contrasena) {
@@ -589,7 +654,7 @@ pool.query(query, values, (err) => {
 });
 
 // Actualizar un bibliotecario
-app.put('/bibliotecarios/:id', (req, res) => {
+app.put('/bibliotecarios/:id', authenticateToken,(req, res) => {
 const { id } = req.params;
 const { NombreCompleto, Correo, Telefono, IdAdmin, NombreUsuario, Contrasena } = req.body;
 
@@ -618,7 +683,7 @@ pool.query(query, values, (err, result) => {
 });
 
 // Eliminar un bibliotecario
-app.delete('/bibliotecarios/:id', (req, res) => {
+app.delete('/bibliotecarios/:id',authenticateToken, (req, res) => {
 const { id } = req.params;
 
 pool.query('DELETE FROM Bibliotecario WHERE IdBibliotecario = ?', [id], (err) => {
@@ -632,7 +697,7 @@ pool.query('DELETE FROM Bibliotecario WHERE IdBibliotecario = ?', [id], (err) =>
 });
 
 // Buscar bibliotecarios
-app.get('/bibliotecarios', (req, res) => {
+app.get('/bibliotecarios', authenticateToken,(req, res) => {
 const { busqueda, NombreUsuario, Correo, NombreCompleto } = req.query;
 let query = 'SELECT * FROM Bibliotecario WHERE 1=1';
 const params = [];
@@ -703,7 +768,7 @@ app.get('/multas/:id', (req, res) => {
 });
 
 //Crear multa
-app.post('/multas', (req, res) => {
+app.post('/multas', authenticateToken,(req, res) => {
   const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
 
   // Validar datos requeridos
@@ -787,7 +852,7 @@ app.post('/multas', (req, res) => {
 });
 
 // Actualizar una multa
-app.patch('/multas/:id', (req, res) => {
+app.patch('/multas/:id',authenticateToken, (req, res) => {
   const { id } = req.params;
   const { NumeroControl, Monto, FechaInicio, Estatus, IdPrestamo } = req.body;
 
@@ -827,7 +892,7 @@ app.patch('/multas/:id', (req, res) => {
 });
 
 // Eliminar una multa
-app.delete('/multas/:id', (req, res) => {
+app.delete('/multas/:id', authenticateToken,(req, res) => {
   const { id } = req.params;
 
   // Validar que el ID sea un número entero positivo
@@ -850,7 +915,7 @@ app.delete('/multas/:id', (req, res) => {
 
 
  //Obtener todos los préstamos V2
- app.get('/loan', (req, res) => {
+ app.get('/loan', authenticateToken,(req, res) => {
   const query = `
   SELECT p.IdPrestamo, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
   FROM Prestamo p
@@ -868,7 +933,7 @@ app.delete('/multas/:id', (req, res) => {
 });
 
  //Obtener todos los préstamos
-app.get('/loans', (req, res) => {
+app.get('/loans', authenticateToken,(req, res) => {
   const query = `
   SELECT p.IdPrestamo as id, p.ISBN, p.NumeroControl, p.FechaPrestamo, p.FechaDevolucion, l.Titulo
   FROM Prestamo p
@@ -886,7 +951,7 @@ app.get('/loans', (req, res) => {
 });
 
 // Devolver un libro
-app.delete('/returnBook/:id', (req, res) => {
+app.delete('/returnBook/:id', authenticateToken,(req, res) => {
   const { id } = req.params;
   console.log('ID del préstamo a devolver:', id);
 
