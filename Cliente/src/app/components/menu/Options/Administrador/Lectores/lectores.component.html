@@ -1,24 +1,57 @@
 <div class="registro-lector">
-  <h1 class="form-title">Registro de Nuevos Lectores</h1>
+  <h1 class="form-title">{{ editMode ? 'Editar Lector' : 'Registrar Nuevo Lector' }}</h1>
 
+  <!-- Formulario para agregar un nuevo lector o editar uno existente -->
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="nombreLector">Nombre Completo</label>
-      <input type="text" id="NombreCompleto" placeholder="Nombre Completo" maxlength="50" [(ngModel)]="lector.NombreCompleto"   name="NombreCompleto" required>
+      <label for="NombreCompleto">Nombre Completo</label>
+      <input type="text" id="NombreCompleto" placeholder="Nombre Completo" maxlength="50" [(ngModel)]="lector.NombreCompleto" name="NombreCompleto" required>
     </div>
 
     <div class="form-group">
-      <label for="control">Numero de Control</label>
+      <label for="NumeroControl">Número de Control</label>
       <input type="text" id="NumeroControl" placeholder="Número de Control" maxlength="50" [(ngModel)]="lector.NumeroControl" name="NumeroControl" required>
     </div>
 
     <div class="form-group">
       <label for="Correo">Correo Electrónico</label>
-      <input type="text" id="Correo" placeholder="Correo" maxlength="50" [(ngModel)]="lector.Correo" name="Correo"required>
-      
+      <input type="email" id="Correo" placeholder="Correo" maxlength="50" [(ngModel)]="lector.Correo" name="Correo" required>
     </div>
 
-    <button>Guardar</button>
-
-
+    <button type="submit">{{ editMode ? 'Actualizar' : 'Guardar' }}</button>
+    <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
   </form>
+
+  <!-- Botón para ver u ocultar la lista de lectores -->
+  <div class="buttons">
+    <button (click)="toggleLectoresList()">
+      {{ showLectoresList ? 'Ocultar' : 'Ver' }} Lectores
+    </button>
+  </div>
+
+  <!-- Tabla de Lectores -->
+  <div *ngIf="showLectoresList" class="lectores-list">
+    <h2>Lectores Registrados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre Completo</th>
+          <th>Número de Control</th>
+          <th>Correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let lector of lectores">
+          <td>{{ lector.NombreCompleto }}</td>
+          <td>{{ lector.NumeroControl }}</td>
+          <td>{{ lector.Correo }}</td>
+          <td>
+            <button (click)="editLector(lector)">Editar</button>
+            <button (click)="deleteLector(lector.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

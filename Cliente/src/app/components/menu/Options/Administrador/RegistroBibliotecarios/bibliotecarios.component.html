@@ -3,30 +3,60 @@
   <div class="form-group">
     <label for="NombreBibliotecario">Nombre del Bibliotecario</label>
     <input type="text" id="NombreCompleto" placeholder="Nombre del Bibliotecario" maxlength="50" [(ngModel)]="NombreCompleto">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Correo">Correo Electronico</label>
-    <input type="text" id="Correo" placeholder="Correo" maxlength="100" [(ngModel)]="Correo">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
+    <input type="email" id="Correo" placeholder="Correo" maxlength="100" [(ngModel)]="Correo">
   </div>
   <div class="form-group">
-    <label for="Numero">Número Telefónico</label>
+    <label for="Telefono">Número Telefónico</label>
     <input type="text" id="Telefono" placeholder="Número Telefónico" maxlength="15" [(ngModel)]="Telefono">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="form-group">
-    <label for="Usuario">Usuario</label>
+    <label for="NombreUsuario">Usuario</label>
     <input type="text" id="NombreUsuario" placeholder="Usuario" maxlength="50" [(ngModel)]="NombreUsuario">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="form-group">
     <label for="Contrasena">Contraseña</label>
     <input type="password" id="Contrasena" placeholder="Contraseña" maxlength="255" [(ngModel)]="Contrasena">
-    <mat-icon routerLink="/bibliotecario"></mat-icon>
   </div>
   <div class="buttons">
-    <button (click)="confirmCancel()">Cancelar</button>
+    <button (click)="resetFields()">Cancelar</button>
     <button (click)="saveBibliotecario()">Guardar</button>
   </div>
+</div>
+
+<!-- Botón para ver u ocultar la lista de bibliotecarios -->
+<div class="buttons">
+  <button (click)="toggleBibliotecarios()">
+    {{ showBibliotecarios ? 'Ocultar' : 'Ver' }} Bibliotecarios
+  </button>
+</div>
+
+<!-- Lista de Bibliotecarios -->
+<div *ngIf="showBibliotecarios" class="bibliotecarios-list">
+  <h2>Bibliotecarios Registrados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre Completo</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Usuario</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bibliotecario of bibliotecarios">
+        <td>{{ bibliotecario.NombreCompleto }}</td>
+        <td>{{ bibliotecario.Correo }}</td>
+        <td>{{ bibliotecario.Telefono }}</td>
+        <td>{{ bibliotecario.NombreUsuario }}</td>
+        <td>
+          <button (click)="editBibliotecario(bibliotecario)">Editar</button>
+          <button (click)="deleteBibliotecario(bibliotecario.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
