@@ -39,6 +39,7 @@ import { PaypalComponent } from './components/menu/Options/Usuario/paypal/paypal
 import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
 import {AuthInterceptor} from './auth.interceptor'
 import { SessionExpiredDialogComponent } from './components/home/login/logout.component';
+
 @NgModule({
   declarations: [
     AppComponent,

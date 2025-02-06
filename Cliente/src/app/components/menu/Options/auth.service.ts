@@ -7,7 +7,7 @@ import {Router} from '@angular/router'
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:3000'; // URL base de tu backend
+  private baseUrl = 'https://bibliotecaapi-4.onrender.com'; // URL base de tu backend
 
   constructor(private http: HttpClient,private router:Router) {}
 

@@ -23,10 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'Biblioteca'
+  host: 'b4kppym63dg6zpzyp5dt-mysql.services.clever-cloud.com',
+  user: 'uaiyozrrpiiv49k8',
+  password: 'j7kkCcUtya3C7OEb4EGe',
+  database: 'b4kppym63dg6zpzyp5dt'
 };
 
 const pool = mysql.createPool(dbConfig);
@@ -43,7 +43,7 @@ pool.getConnection((err, connection) => {
 
   // Inicia el servidor solo después de una conexión exitosa
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
+  app.listen(PORT,'0.0.0.0', () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
   });
 });
@@ -430,8 +430,9 @@ app.post('/lector', authenticateToken,(req, res) => {
       return res.status(500).send({ message: 'Error interno del servidor' });
     }
 
-    const confirmUrl = `http://localhost:3000/confirm/${token}`;
+    const confirmUrl = `https://bibliotecaapi-4.onrender.com/confirm/${token}`;
 
+  
 // Enviar correo de confirmación
 const mailOptions = {
   from: userGmail,
