@@ -12,7 +12,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1a237e;
+  background-color: hsl(0, 0%, 100%);
   color: white;
   padding: 10px;
   position: fixed;
@@ -133,6 +133,22 @@ body {
   color: #555;
   margin: 0;
 }
+button[mat-icon-button] {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button[mat-icon-button] mat-icon {
+  font-size: 32px;
+  color: #1a237e; /* Azul oscuro UTNG */
+  transition: color 0.3s ease;
+}
+
+button[mat-icon-button]:hover mat-icon {
+  color: #0d47a1; /* Azul más oscuro al pasar el mouse */
+}
+
 
 .main-news-title {
   font-size: 2em;
