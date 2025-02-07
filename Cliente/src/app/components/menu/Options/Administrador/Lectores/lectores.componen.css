@@ -1,214 +1,222 @@
-/* registro-lector.component.css */
+/* Fondo general de la página */
+body {
+  background-color: #f0f0f0;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-.registro-lector {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .registro-lector h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .registro-lector form {
-    display: grid;
-    grid-gap: 10px;
-  }
-  
-  .registro-lector .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .registro-lector label {
-    font-weight: bold;
-  }
-  
-  .registro-lector input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .registro-lector button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .registro-lector button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  .registro-lector {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  input[type="text"], input[type="email"] {
-    width: calc(100% - 22px); /* Ajuste para que el input no sobresalga del contenedor */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button.save-button {
-    background-color: #28a745;
-  }
-  
-  .mat-icon {
-    vertical-align: middle;
-    cursor: pointer;
-  }
-  
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-  }
-  
-  .error-snackbar {
-    background-color: #f44336;
-  }
-  
-  .success-snackbar {
-    background-color: #4caf50;
-  }
-  
+/* Contenedor principal centralizado */
+.contenedor-centralizado {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-
-
-  /* Estilo para el mensaje de confirmación */
-.confirmation-message {
-  max-width: 600px;
+/* Contenedor principal de registro */
+.registro-evento, .eventos-registrados {
+  width: 100%;
+  max-width: 500px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #007bff; /* Color del borde acorde a tu botón */
+  background-color: #ffffff;
   border-radius: 10px;
-  background-color: #f9f9f9; /* Fondo claro */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Títulos y subtítulos */
+.form-title, .section-title {
   text-align: center;
-}
-
-.confirmation-message h2 {
-  color: #007bff; /* Color del título */
   font-size: 24px;
+  color: #1a237e;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.confirmation-message p {
-  color: #333; /* Color del texto */
-  font-size: 18px;
-}
-
-.registro-lector {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
+/* Grupos de formulario */
 .form-group {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
 }
 
 label {
-  display: block;
+  font-weight: bold;
   margin-bottom: 5px;
+  text-transform: capitalize;
 }
 
-input {
+/* Estilos para los campos de entrada */
+input[type="text"], input[type="date"], input[type="email"] {
   width: 100%;
   padding: 10px;
+  font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
+/* Estilo para los botones */
 button {
-  padding: 10px 15px;
-  background-color: #007bff;
+  padding: 10px 20px;
+  background-color: #1a237e;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0d1b6a;
+  transform: scale(1.05);
 }
 
-.error-message {
-  color: red;
-  font-size: 14px;
+button:active {
+  transform: scale(0.95);
 }
 
-.lectores-list {
-  margin-top: 30px;
+/* Opciones de acciones */
+.opciones-acciones {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px;
 }
 
+.accion-boton {
+  padding: 10px 20px;
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+  text-transform: uppercase;
+}
+
+.accion-boton:hover {
+  background-color: #0d1b6a;
+  transform: scale(1.05);
+}
+
+.accion-boton:active {
+  transform: scale(0.95);
+}
+
+/* Contenedor de búsqueda */
+.barra-busqueda {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.barra-busqueda input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Tabla de eventos */
 table {
   width: 100%;
   border-collapse: collapse;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 th, td {
-  padding: 10px;
+  padding: 14px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
+  text-transform: capitalize;
+}
+
+th {
+  background-color: #1a237e;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.3s;
+}
+
+/* Snackbar para mostrar mensajes */
+.error-snackbar {
+  background-color: #f44336;
+}
+
+.success-snackbar {
+  background-color: #4caf50;
+}
+
+/* Íconos interactivos */
+.mat-icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Contenedor para los botones "Guardar" y "Ocultar" */
+.boton-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Espacio entre los botones */
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+}
+
+/* Estilo de los botones dentro del contenedor */
+.boton-container button {
+  width: auto; /* Hacer que los botones ajusten su tamaño al contenido */
+  padding: 10px 20px;
+  background-color: #1a237e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover y Active de los botones dentro del contenedor */
+.boton-container button:hover {
+  background-color: #0d1b6a;
+  transform: scale(1.05);
+}
+
+.boton-container button:active {
+  transform: scale(0.95);
 }

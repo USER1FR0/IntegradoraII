@@ -153,7 +153,7 @@ function generateToken(user) {
     id: user.id,
     username: user.username,
   }
-  return jwt.sign(payload, JWT_SECRET,{expiresIn: '1m'})
+  return jwt.sign(payload, JWT_SECRET,{expiresIn: '1h'})
 }
 
 function authenticateToken(req,res,next){

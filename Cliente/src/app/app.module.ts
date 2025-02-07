@@ -38,7 +38,7 @@ import { PaypalComponent } from './components/menu/Options/Usuario/paypal/paypal
 import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { SessionExpiredDialogComponent } from './components/home/login/logout.component';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,5 +88,6 @@ import { SessionExpiredDialogComponent } from './components/home/login/logout.co
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Asegúrate de que el interceptor de autenticación esté en el provider
   ],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

@@ -48,10 +48,12 @@
             <label for="ejemplares">Número de ejemplares</label>
             <input type="number" id="ejemplares" placeholder="Número de ejemplares" [(ngModel)]="ejemplares" name="ejemplares" required>
         </div>
-        <div class="form-group">
+        <div class="form-group file-container">
             <label for="portada">Portada del libro</label>
-            <input type="file" id="portada" (change)="onFileSelected($event)" accept="image/*">
+            <input type="file" id="portada" (change)="onFileSelected($event)" accept="image/*" />
+            <span id="file-name" class="no-file-selected">Ningún archivo seleccionado</span>
         </div>
+        
         <div class="buttons">
             <button type="button" class="cancel-button" (click)="confirmCancel()">Cancelar</button>
             <button type="submit" class="save-button">Guardar</button>

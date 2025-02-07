@@ -31,7 +31,7 @@ body {
 }
 
 button[mat-icon-button] {
-  color: #2B6ADF;
+  color: #1a237e;
 }
 
 .mat-icon {
@@ -41,14 +41,14 @@ button[mat-icon-button] {
 .main-layout {
   display: flex;
   flex-grow: 1;
-  margin-top: 60px; /* Ajuste para la altura de la navbar */
+  margin-top: 60px;
   overflow: hidden;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .sidebar {
-  background-color: #2B6ADF;
-  height: calc(100vh - 60px); /* Ajustar la altura basada en la pantalla menos el navbar */
+  background-color: #1a237e;
+  height: calc(100vh - 60px);
   width: 220px;
   padding: 15px;
   color: white;
@@ -58,10 +58,9 @@ button[mat-icon-button] {
   position: fixed;
   top: 60px;
   left: 0;
-  margin-bottom: 50px; /* Espacio desde la parte baja */
-  box-sizing: border-box; /* Asegura que los márgenes no desborden el contenedor */
+  margin-bottom: 50px;
+  box-sizing: border-box;
 }
-
 
 .sidebar.hidden {
   transform: translateX(-100%);
@@ -100,11 +99,11 @@ button[mat-icon-button] {
   background-size: cover;
   background-position: auto;
   overflow-y: auto;
-  min-height: calc(100vh - 60px - 40px); /* Ajustado para la altura de navbar y footer */
+  min-height: calc(100vh - 60px - 40px);
 }
 
 .content-section.full-width {
-  margin-left: 0; /* Expande el contenido cuando la sidebar está oculta */
+  margin-left: 0;
 }
 
 .seccion-noticias {
@@ -129,7 +128,7 @@ button[mat-icon-button] {
 
 .noticia-item h3 {
   margin-top: 0;
-  color: #2B6ADF;
+  color: #1a237e;
 }
 
 .noticia-item img {
@@ -143,7 +142,7 @@ button[mat-icon-button] {
   background-color: #ffffff;
   padding: 20px 0;
   text-align: center;
-  color: #2B6ADF;
+  color: #1a237e;
   position: fixed;
   bottom: 0;
   width: 100%;
