@@ -11,9 +11,10 @@ declare var H: any;
 export class MapComponent implements OnInit {
   private map: any;
   private platform: any;
-  private userPosition: any; // Variable para almacenar la ubicación del usuario
-  private currentBubble: any; // Variable para almacenar el cuadro de información actual
-  private userMarker: any; // Variable para almacenar el marcador de la posición del usuario
+  private userPosition: any;
+  private routingService: any;
+  private routeLine: any;
+  private userMarker: any;
 
   constructor(private eventosService: EventosService) {}
 
@@ -26,6 +27,7 @@ export class MapComponent implements OnInit {
       apikey: "EA1yweP2Qasi_jTOqeiKhRoBDqnu_Oh_QKiG91e2d38"
     });
     const defaultLayers = this.platform.createDefaultLayers();
+    this.routingService = this.platform.getRoutingService(null, 8);
 
     this.map = new H.Map(
       document.getElementById('mapContainer'),
@@ -39,11 +41,10 @@ export class MapComponent implements OnInit {
     new H.mapevents.Behavior(mapEvents);
     H.ui.UI.createDefault(this.map, defaultLayers, "es-ES");
 
-    this.getBrowserPosition(); // Obtener la ubicación del usuario
-    this.loadEventos(); // Cargar los eventos y agregarlos al mapa
+    this.getBrowserPosition();
+    this.loadEventos();
   }
 
-  // Obtener la posición del usuario y centrar el mapa en ella
   getBrowserPosition(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -52,13 +53,8 @@ export class MapComponent implements OnInit {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          console.log("Ubicación del usuario:", this.userPosition);
-
-          // Centrar el mapa en la posición del usuario
-          this.map.setCenter(this.userPosition);
-
-          // Agregar un marcador rojo en la ubicación del usuario
           this.addUserMarker(this.userPosition);
+          this.map.setCenter(this.userPosition);
         },
         () => {
           alert("No pudimos obtener su ubicación.");
@@ -69,17 +65,15 @@ export class MapComponent implements OnInit {
     }
   }
 
-  // Agregar un marcador rojo en la ubicación actual del usuario
   addUserMarker(position: any): void {
     const userIcon = new H.map.Icon(
       'https://upload.wikimedia.org/wikipedia/commons/e/e4/Red_dot.svg',
       { size: { w: 32, h: 32 } }
     );
-    this.userMarker = new H.map.Marker(position, { icon: userIcon });
+    this.userMarker = new H.map.Marker(position, { icon: this.userMarker });
     this.map.addObject(this.userMarker);
   }
 
-  // Cargar los eventos activos desde el servicio y agregar "cuadros de texto" como marcadores
   loadEventos(): void {
     this.eventosService.getEventosActivos().subscribe(
       (eventos) => {
@@ -97,34 +91,37 @@ export class MapComponent implements OnInit {
     );
   }
 
-  // Función para formatear la fecha en un formato legible
   formatDate(date: string): string {
     const eventDate = new Date(date);
     return eventDate.toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  // Agregar un marcador de texto para cada evento
   addTextMarker(coordinate: any, title: string, description: string, formattedDate: string): void {
     const smallContent = `<b>${title}</b>`;
-    const fullContent = `<b>${title}</b><br>${description}<br><i>Fecha: ${formattedDate}</i>`;
+    const fullContent = `
+      <b>${title}</b><br>${description}<br><i>Fecha: ${formattedDate}</i>
+      <br><button onclick="document.dispatchEvent(new CustomEvent('routeToEvent', { detail: ${JSON.stringify(coordinate)} }))">Ir</button>
+    `;
 
     const marker = new H.map.DomMarker(coordinate, {
       icon: this.createTextIcon(smallContent)
     });
     this.map.addObject(marker);
 
-    // Agregar evento para expandir al hacer clic
     marker.addEventListener('tap', () => {
-      marker.setIcon(this.createTextIcon(fullContent)); // Cambiar a la vista expandida
+      marker.setIcon(this.createTextIcon(fullContent));
     });
 
-    // Regresar al cuadro pequeño cuando el puntero se retira del cuadro
     marker.addEventListener('pointerleave', () => {
-      marker.setIcon(this.createTextIcon(smallContent)); // Cambiar de nuevo a la vista compacta
+      marker.setIcon(this.createTextIcon(smallContent));
+    });
+
+    // Escuchar el evento "routeToEvent" y calcular la ruta
+    document.addEventListener('routeToEvent', (e: any) => {
+      this.calculateRoute(this.userPosition, e.detail);
     });
   }
 
-  // Crear un ícono de texto personalizado
   createTextIcon(content: string): any {
     const div = document.createElement('div');
     div.style.fontSize = '14px';
@@ -137,8 +134,36 @@ export class MapComponent implements OnInit {
     div.style.cursor = 'pointer';
     div.style.textAlign = 'center';
     div.innerHTML = content;
-
-    // Crear el ícono de texto
     return new H.map.DomIcon(div);
+  }
+
+  calculateRoute(origin: any, destination: any): void {
+    if (this.routeLine) {
+      this.map.removeObject(this.routeLine); // Remove previous route if it exists
+    }
+
+    const routingParameters = {
+      routingMode: "fast",
+      transportMode: "car",
+      origin: `${origin.lat},${origin.lng}`,
+      destination: `${destination.lat},${destination.lng}`,
+      return: "polyline"
+    };
+
+    this.routingService.calculateRoute(routingParameters, (result: any) => {
+      if (result.routes.length) {
+        const route = result.routes[0];
+        route.sections.forEach((section: any) => {
+          const linestring = H.geo.LineString.fromFlexiblePolyline(section.polyline);
+          this.routeLine = new H.map.Polyline(linestring, {
+            style: { strokeColor: "#034F84", lineWidth: 3 }
+          });
+          this.map.addObject(this.routeLine);
+          this.map.getViewModel().setLookAtData({ bounds: this.routeLine.getBoundingBox() });
+        });
+      }
+    }, (error: any) => {
+      alert("Error al calcular la ruta: " + error.message);
+    });
   }
 }

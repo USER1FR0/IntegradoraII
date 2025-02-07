@@ -17,14 +17,13 @@ import { ipComponent } from './components/menu/Options/Administrador/ip/ip.compo
 import { MapComponent } from './map/map.component';
 import { VideollamadaComponent } from './components/menu/Options/Administrador/videollamada/videollamada.component';
 
-
 const routes: Routes = [
   {
     path : '',
     redirectTo : 'home',
     pathMatch : 'full'
   },
-  { path: 'menu', component: MenuComponent, canActivate: [AuthGuard] },
+  { path: 'menu', component: MenuComponent,canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent}, 
   { path: 'error', component: ErrorComponent },
   {path:'login',component:LoginComponent,canActivate: [AuthGuard]},

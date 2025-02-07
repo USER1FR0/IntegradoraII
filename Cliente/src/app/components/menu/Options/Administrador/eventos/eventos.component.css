@@ -1,49 +1,61 @@
 /* Fondo general de la página */
 body {
   background-color: #f0f0f0;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* Contenedor principal centralizado */
 .contenedor-centralizado {
   max-width: 900px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Contenedor principal de registro */
-.registro-evento, .eventos-registrados {
+/* Contenedor de registro y eventos */
+.registro-evento, 
+.eventos-registrados {
   width: 100%;
   max-width: 500px;
   margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Título del formulario */
 .form-title {
   text-align: center;
   font-size: 24px;
-  color: #333;
+  color: #1a237e;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 /* Grupos de formulario */
 .form-group {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
 }
 
 label {
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 /* Estilos para los campos de entrada */
-input[type="text"], input[type="date"] {
-  width: calc(100% - 22px);
+input[type="text"], 
+input[type="date"] {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -51,23 +63,49 @@ input[type="text"], input[type="date"] {
   box-sizing: border-box;
 }
 
-/* Estilo para el botón de submit */
-button[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
+/* Contenedor de botones del formulario */
+.botones-formulario {
+  display: flex;
+  justify-content: space-between; /* Separa los botones */
+  gap: 15px; /* Espacio entre botones */
+  margin-top: 20px;
+}
+
+/* Estilos estándar para botones principales */
+button, 
+.save-button, 
+.cancel-button, 
+.accion-boton {
+  padding: 12px 0;
+  width: 48%; /* Ambos botones con el mismo tamaño */
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #1a237e;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-button[type="submit"]:hover {
-  background-color: #45a049;
+button:hover, 
+.save-button:hover, 
+.cancel-button:hover, 
+.accion-boton:hover {
+  background-color: #0d1b6a;
+  transform: scale(1.05);
 }
 
-/* Opciones de acciones (botones de Registro y Ver Eventos) */
+button:active, 
+.save-button:active, 
+.cancel-button:active, 
+.accion-boton:active {
+  transform: scale(0.95);
+}
+
+/* Opciones de acciones */
 .opciones-acciones {
   display: flex;
   gap: 20px;
@@ -75,28 +113,7 @@ button[type="submit"]:hover {
   margin: 20px;
 }
 
-.accion-boton {
-  padding: 10px 20px;
-  background-color: #1a2bbf;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.accion-boton:hover {
-  background-color: #1628a3;
-  transform: scale(1.05);
-}
-
-.accion-boton:active {
-  transform: scale(0.95);
-}
-
-/* Contenedor de búsqueda unificada */
+/* Contenedor de búsqueda */
 .barra-busqueda {
   width: 100%;
   max-width: 500px;
@@ -104,11 +121,11 @@ button[type="submit"]:hover {
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .barra-busqueda input[type="text"] {
-  width: calc(100% - 20px);
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -120,32 +137,44 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 th, td {
-  padding: 12px;
+  padding: 14px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
 th {
-  background-color: #223ef3;
+  background-color: #1a237e;
   color: white;
   font-weight: bold;
 }
 
-tr:hover {
-  background-color: #f1f1f1;
+tr:nth-child(even) {
+  background-color: #f5f5f5;
 }
 
-/* Snackbar para mostrar mensajes */
+tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.3s;
+}
+
+/* Snackbar para mensajes */
 .error-snackbar {
   background-color: #f44336;
 }
 
 .success-snackbar {
   background-color: #4caf50;
+}
+
+/* Íconos interactivos */
+.mat-icon {
+  cursor: pointer;
+  margin-left: 10px;
 }
